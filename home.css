@@ -1,0 +1,347 @@
+.headerHome {
+  width: 100%;
+  background: var(--home-header-bg);
+  padding: 60px 20px 32px;
+  border-radius: 0 0 28px 28px;
+  box-shadow: 0 2px 10px var(--shadow-color);
+  position: relative;
+  color: var(--home-header-text);
+  transition: background 0.3s ease, color 0.3s ease;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.headerHome::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.7) 100%);
+  border-radius: 0 0 28px 28px;
+  pointer-events: none;
+  z-index: 0;
+}
+.headerHome::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-bottom: 4px solid var(--accent-light);
+  border-radius: 0 0 28px 28px;
+  pointer-events: none;
+  z-index: 2;
+}
+.headerHome > * { position: relative; z-index: 1; }
+/* ── SKELETON SHIMMER ── */
+@keyframes skShimmer { to { background-position: -800px 0; } }
+
+.sk-row, .sk-box {
+  background: linear-gradient(90deg, var(--border-color) 25%, rgba(0,0,0,0.04) 50%, var(--border-color) 75%);
+  background-size: 800px 100%;
+  animation: skShimmer 1.5s infinite linear;
+  border-radius: 8px;
+}
+.sk-row {
+  height: 16px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+.sk-row:last-child { margin-bottom: 0; }
+.sk-box {
+  height: 44px;
+  border-radius: 8px;
+}
+
+/* versi terang, dipakai di atas background gelap (header coklat) */
+.sk-light {
+  background: linear-gradient(90deg, rgba(255,255,255,0.16) 25%, rgba(255,255,255,0.28) 50%, rgba(255,255,255,0.16) 75%);
+  background-size: 800px 100%;
+}
+.home-top-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.home-notif-btn {
+  margin-left: auto;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.16);
+  border: none;
+  color: var(--home-header-text);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.home-avatar {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 18px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.home-avatar-img { width: 100%; height: 100%; object-fit: cover; }
+.home-greeting { min-width: 0; }
+.home-nama { font-size: 16px; font-weight: 700; }
+.home-kantor { font-size: 12px; opacity: 0.8; margin-top: 2px; }
+.home-laporan-card {
+  margin-top: 58px;
+  background: rgba(255,255,255,0.14);
+  border-radius: 20px;
+  padding: 18px 18px 20px;
+}
+.home-laporan-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--home-header-text);
+  opacity: 0.85;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 12px;
+}
+.home-laporan-title i {
+  font-size: 12px;
+}
+.home-laporan-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 14px;
+}
+.home-laporan-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.18);
+  font-size: 13px;
+  color: var(--home-header-text);
+}
+.home-laporan-row:last-child { border-bottom: none; }
+.home-laporan-jenis {
+  opacity: 0.85;
+  font-weight: 500;
+}
+.home-laporan-qty {
+  font-weight: 700;
+  color: var(--home-header-text);
+  background: rgba(255,255,255,0.18);
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+.home-laporan-empty,
+.home-laporan-loading {
+  font-size: 12px;
+  color: var(--home-header-text);
+  opacity: 0.7;
+  text-align: center;
+  padding: 10px 0;
+}
+.home-laporan-total {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--home-header-text);
+  padding-top: 14px;
+  border-top: 1px dashed rgba(255,255,255,0.25);
+  letter-spacing: -0.5px;
+}
+
+.home-body { padding: 18px 16px 90px; }
+
+.menu-btn {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  background: var(--bg-hover);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--accent);
+}
+.menu-btn i { font-size: 16px; }
+.home-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.home-stat-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 2px 8px var(--shadow-color);
+}
+.home-stat-label { font-size: 12px; color: var(--text-secondary); }
+.home-stat-value { font-size: 19px; font-weight: 700; color: var(--text-heading); margin-top: 4px; }
+
+.home-recent-list { display: flex; flex-direction: column; gap: 8px; }
+.home-recent-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+.home-recent-item__nama { font-size: 14px; font-weight: 600; }
+.home-recent-item__tanggal { font-size: 12px; color: var(--text-muted); }
+.home-recent-item__jumlah { font-size: 14px; font-weight: 700; color: var(--success); }
+
+.home-purchase-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 14px;
+  margin: 10px 16px 14px;
+  box-shadow: 0 2px 8px var(--shadow-color);
+}
+.home-purchase-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+.home-purchase-title i { color: var(--accent); }
+
+.home-purchase-list { display: flex; flex-direction: column; gap: 10px; }
+
+.home-purchase-list { display: flex; flex-direction: column; gap: 14px; }
+
+.home-purchase-staff-block {
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-color);
+}
+.home-purchase-staff-block:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.home-purchase-staff-nama {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.home-purchase-varian-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  gap: 6px;
+}
+.home-purchase-varian-item {
+  text-align: center;
+  background: var(--bg-hover);
+  border-radius: 8px;
+  padding: 6px 4px;
+}
+.home-purchase-varian-kode {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+.home-purchase-varian-qty {
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+.home-purchase-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.home-purchase-title {
+  margin-bottom: 0;
+  flex: 1;
+}
+.home-purchase-filter { position: relative; }
+.home-purchase-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  font-size: 12px;
+  cursor: pointer;
+}
+.home-purchase-date-native {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.home-purchase-total-block {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border-color);
+}
+.home-purchase-total-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 8px;
+}
+.home-purchase-varian-item-total {
+  background: var(--accent);
+}
+.home-purchase-varian-item-total .home-purchase-varian-kode,
+.home-purchase-varian-item-total .home-purchase-varian-qty {
+  color: #fff;
+}
+
+.home-purchase-empty,
+.home-purchase-loading {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 10px 0;
+}
+.home-purchase-catatan-block {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border-color);
+}
+.home-purchase-catatan-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 6px;
+}
+.home-purchase-catatan-text {
+  font-size: 13px;
+  color: var(--text-primary);
+  line-height: 1.5;
+  background: var(--bg-hover);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.home-purchase-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}

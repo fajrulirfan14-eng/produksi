@@ -1,0 +1,217 @@
+#view-input { background: var(--bg-primary); }
+
+.input-topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 60px 16px 14px;
+  background: var(--home-header-bg);
+  color: var(--home-header-text);
+  border-radius: 0 0 24px 24px;
+}
+.input-topbar__back {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.16);
+  border: none;
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.input-topbar__title { font-size: 16px; font-weight: 700; }
+
+.input-body { padding: 18px 16px 90px; }
+
+.input-form { display: flex; flex-direction: column; padding: 18px; }
+.input-form label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 12px 0 6px;
+}
+.loyang-grid { margin-top: 12px; }
+.input-form textarea { resize: vertical; }
+.input-form .btn-primary { margin-top: 20px; }
+.input-expired-display {
+  background: var(--bg-hover);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  cursor: default;
+}
+.input-lock-msg {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--danger-bg);
+  color: var(--danger);
+  font-size: 13px;
+  text-align: center;
+}
+.input-lock-msg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--danger-bg);
+  color: var(--danger);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.input-lock-msg i {
+  flex-shrink: 0;
+  font-size: 15px;
+}
+
+.input-form input:disabled,
+.input-form .varian-item input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.input-confirm-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.input-confirm-overlay.show {
+  display: flex;
+}
+.input-confirm-box {
+  background: var(--bg-card, #fff);
+  border-radius: 16px;
+  padding: 24px 20px;
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+.input-confirm-icon {
+  font-size: 32px;
+  color: #e0a800;
+  margin-bottom: 10px;
+}
+.input-confirm-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.input-confirm-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+.input-confirm-actions {
+  display: flex;
+  gap: 10px;
+}
+.input-confirm-btn {
+  flex: 1;
+  height: 42px;
+  border-radius: 10px;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.input-confirm-btn.cancel {
+  background: var(--bg-hover);
+  color: var(--text-secondary);
+}
+.input-confirm-btn.ok {
+  background: var(--accent, #1a73e8);
+  color: #fff;
+}
+
+.input-status {
+  margin-top: 12px;
+  font-size: 13px;
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: none;
+}
+.input-status.success { display: block; color: var(--success); background: var(--success-bg); }
+.input-status.error   { display: block; color: var(--danger);  background: var(--danger-bg); }
+.input-date-field { position: relative; }
+.input-date-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 15px;
+}
+.input-date-display i { color: var(--accent); }
+.input-date-native {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.varian-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+  gap: 10px;
+}
+.varian-item {
+  width: 100%;
+  background: var(--bg-hover);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 8px 4px;
+}
+.varian-item input {
+  width: 100%;
+  text-align: center;
+  padding: 8px 2px;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+}
+.varian-item input::placeholder {
+  color: var(--text-secondary);
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+/* ── LOYANG INPUTS (dinamis) ── */
+.loyang-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.loyang-field label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0 0 6px;
+}
+.loyang-field input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 15px;
+  box-sizing: border-box;
+}

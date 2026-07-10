@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<meta name="theme-color" content="#8A6234">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TTN App">
+
+<title>TTN App</title>
+
+<link rel="stylesheet" href="root.css">
+<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="home.css">
+<link rel="stylesheet" href="input.css">
+<link rel="stylesheet" href="profil.css">
+<link rel="stylesheet" href="aksesbilitas.css">
+<link rel="stylesheet" href="laporan.css">
+<link rel="stylesheet" href="peraturan.css">
+<link rel="stylesheet" href="keamanan.css">
+<link rel="stylesheet" href="tentang.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div id="app">
+  <div id="pullRefreshIndicator">
+    <div id="ptrCard">
+      <svg viewBox="0 0 80 80">
+        <circle id="ptrCircle" cx="40" cy="40" r="36"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ===== HOME VIEW ===== -->
+  <div class="view active" id="view-home">
+    <div id="home-root"><div class="spinner"></div></div>
+  </div>
+
+  <!-- ===== INPUT VIEW ===== -->
+  <div class="view" id="view-input">
+    <div id="input-root"></div>
+  </div>
+
+  <!-- ===== LAPORAN VIEW ===== -->
+  <div class="view" id="view-laporan">
+    <div id="laporan-root"><div class="spinner"></div></div>
+  </div>
+  
+  <!-- ===== PROFIL VIEW ===== -->
+  <div class="view" id="view-profil">
+    <div class="profil-page">
+  
+      <!-- HERO -->
+      <div class="profil-hero" id="profilHero">  
+        <div class="profil-hero-gradient" id="profilHeroBg"></div>  
+        <div class="profil-hero-pattern"></div>  
+        <div class="profil-hero-shape"></div>  
+    
+        <!-- Tombol Edit Foto Sampul -->
+        <div class="cover-edit-wrap" id="coverEditWrap">
+            <button class="cover-edit-btn" id="btnEditCover">
+                <i class="fa-solid fa-camera"></i>
+                Edit foto sampul
+            </button>
+            <!-- Dropdown -->
+            <div class="cover-dropdown" id="coverDropdown">
+                <button class="cover-dropdown-item" id="btnGantiCover">
+                    <i class="fa-solid fa-image"></i>
+                    Ganti foto
+                </button>
+                <div class="cover-dropdown-sep"></div>
+                <button class="cover-dropdown-item cover-dropdown-danger" id="btnHapusCover">
+                    <i class="fa-solid fa-trash"></i>
+                    Hapus foto
+                </button>
+            </div>
+        </div>
+    
+          <!-- Hidden file input -->
+        <input type="file" id="inputFotoCover" accept="image/png, image/jpeg" style="display:none;" />
+      </div>
+      
+      <!-- ======= CROP MODAL ======= -->
+      <div class="crop-overlay" id="cropOverlay">
+        <div class="crop-modal">
+      
+          <div class="crop-modal-head">
+            <div>
+              <span class="crop-modal-title">Crop Foto Sampul</span>
+              <span class="crop-modal-hint">Seret kotak • Tarik sudut untuk resize</span>
+            </div>
+            <button class="crop-modal-close" id="cropClose">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+      
+          <div class="crop-workspace" id="cropWorkspace">
+            <img id="cropImg" alt="" draggable="false" />
+            <div class="crop-box" id="cropBox">
+              <div class="crop-grid">
+                <div class="cg-line cg-h1"></div>
+                <div class="cg-line cg-h2"></div>
+                <div class="cg-line cg-v1"></div>
+                <div class="cg-line cg-v2"></div>
+              </div>
+              <div class="crop-handle ch-tl" data-handle="tl"></div>
+              <div class="crop-handle ch-tr" data-handle="tr"></div>
+              <div class="crop-handle ch-bl" data-handle="bl"></div>
+              <div class="crop-handle ch-br" data-handle="br"></div>
+            </div>
+          </div>
+      
+          <div class="crop-modal-foot">
+            <span class="crop-size-info" id="cropSizeInfo">–</span>
+            <div class="crop-foot-btns">
+              <button class="crop-btn-cancel" id="cropCancel">Batalkan</button>
+              <button class="crop-btn-confirm" id="cropConfirm">
+                <i class="fa-solid fa-crop-simple"></i>
+                Crop & Simpan
+              </button>
+            </div>
+          </div>
+      
+        </div>
+      </div>
+  
+      <!-- BODY -->
+      <div class="profil-body">
+  
+        <!-- AVATAR FLOATING -->
+        <div class="profil-avatar-section">
+          <div class="profil-avatar-wrap">
+            <div class="profil-avatar" id="profilAvatar">A</div>
+            <div class="profil-avatar-status"></div>
+            <button class="profil-avatar-edit-btn" id="btnEditProfil">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+          </div>
+          <div class="profil-identity">
+            <div class="profil-hero-name" id="profilName">Administrator</div>
+            <div class="profil-hero-email" id="profilEmail">admin@company.com</div>
+          </div>
+        </div>
+  
+        <!-- INFORMASI AKUN -->
+        <div class="profil-section-label">Informasi Akun</div>
+        <div class="profil-card">
+          <div class="profil-card-item">
+            <div class="profil-card-icon brown">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="profil-card-info">
+              <div class="profil-card-label">Nama Lengkap</div>
+              <div class="profil-card-value" id="profilNamaDetail">-</div>
+            </div>
+          </div>
+          <div class="profil-card-sep"></div>
+          <div class="profil-card-item">
+            <div class="profil-card-icon brown">
+              <i class="fa-solid fa-envelope"></i>
+            </div>
+            <div class="profil-card-info">
+              <div class="profil-card-label">Email</div>
+              <div class="profil-card-value" id="profilEmailDetail">-</div>
+            </div>
+          </div>
+          <div class="profil-card-sep"></div>
+          <div class="profil-card-item">
+            <div class="profil-card-icon brown">
+              <i class="fa-solid fa-phone"></i>
+            </div>
+            <div class="profil-card-info">
+              <div class="profil-card-label">Nomor Telepon</div>
+              <div class="profil-card-value" id="profilTelpon">-</div>
+            </div>
+          </div>
+          <div class="profil-card-sep"></div>
+          <div class="profil-card-item">
+            <div class="profil-card-icon brown">
+              <i class="fa-solid fa-briefcase"></i>
+            </div>
+            <div class="profil-card-info">
+              <div class="profil-card-label">Jabatan</div>
+              <div class="profil-card-value" id="profilJabatan">-</div>
+            </div>
+          </div>
+          <div class="profil-card-sep"></div>
+          <div class="profil-card-item">
+            <div class="profil-card-icon brown">
+              <i class="fa-solid fa-building"></i>
+            </div>
+            <div class="profil-card-info">
+              <div class="profil-card-label">Cabang</div>
+              <div class="profil-card-value" id="profilCabang">-</div>
+            </div>
+          </div>
+          <div class="profil-card-sep"></div>
+          <div class="profil-card-item">
+            <div class="profil-card-icon brown">
+              <i class="fa-solid fa-quote-left"></i>
+            </div>
+            <div class="profil-card-info">
+              <div class="profil-card-label">Bio</div>
+              <div class="profil-card-value" id="profilBio">-</div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- PENGATURAN -->
+        <div class="profil-section-label">Pengaturan</div>
+        <div class="profil-card">
+          <div class="profil-menu-item">
+            <div class="profil-menu-left">
+              <div class="profil-card-icon blue"><i class="fa-solid fa-file-contract"></i></div>
+              <span>Perjanjian Kerja</span>
+            </div>
+            <i class="fa-solid fa-chevron-right profil-menu-arrow"></i>
+          </div>
+          <div class="profil-card-sep"></div>
+          <div class="profil-menu-item">
+            <div class="profil-menu-left">
+              <div class="profil-card-icon blue"><i class="fa-solid fa-file-contract"></i></div>
+              <span>Peraturan Perusahaan</span>
+            </div>
+            <i class="fa-solid fa-chevron-right profil-menu-arrow"></i>
+          </div>
+          <div class="profil-card-sep"></div>
+          <div class="profil-menu-item">
+            <div class="profil-menu-left">
+              <div class="profil-card-icon blue"><i class="fa-solid fa-file-contract"></i></div>
+              <span>SOP</span>
+            </div>
+            <i class="fa-solid fa-chevron-right profil-menu-arrow"></i>
+          </div>
+          <div class="profil-card-sep"></div>
+          <div class="profil-menu-item">
+            <div class="profil-menu-left">
+              <div class="profil-card-icon green"><i class="fa-solid fa-bell"></i></div>
+              <span>Aksesbilitas</span>
+            </div>
+            <i class="fa-solid fa-chevron-right profil-menu-arrow"></i>
+          </div>
+          <div class="profil-card-sep"></div>
+          <div class="profil-menu-item">
+            <div class="profil-menu-left">
+              <div class="profil-card-icon green"><i class="fa-solid fa-envelope"></i></div>
+              <span>Slip Gaji</span>
+            </div>
+            <i class="fa-solid fa-chevron-right profil-menu-arrow"></i>
+          </div>
+          <div class="profil-card-sep"></div>
+          <div class="profil-menu-item">
+            <div class="profil-menu-left">
+              <div class="profil-card-icon orange"><i class="fa-solid fa-shield-halved"></i></div>
+              <span>Keamanan Akun</span>
+            </div>
+            <i class="fa-solid fa-chevron-right profil-menu-arrow"></i>
+          </div>
+          <div class="profil-card-sep"></div>
+          <div class="profil-menu-item">
+            <div class="profil-menu-left">
+              <div class="profil-card-icon gray"><i class="fa-solid fa-circle-info"></i></div>
+              <span>Tentang Aplikasi</span>
+            </div>
+            <i class="fa-solid fa-chevron-right profil-menu-arrow"></i>
+          </div>
+        </div>
+  
+        <!-- LOGOUT -->
+        <button id="btnLogout" class="profil-logout-btn">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Logout
+        </button>
+  
+        <div class="profil-version">v1.0.0 · Teh Tarik Nusantara</div>
+  
+      </div>
+    </div>
+  </div>
+  
+  <!-- PERATURAN PT -->
+  <div class="view" id="view-peraturan">
+  
+    <!-- HEADER -->
+    <div class="pp-header">
+      <button class="pp-back-btn" onclick="showView('profil')">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <div class="pp-header-title">Peraturan Perusahaan</div>
+      <button class="pp-search-toggle-btn" onclick="toggleSearch()">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </div>
+  
+    <!-- SEARCH BAR -->
+    <div class="pp-search-bar" id="ppSearchBar">
+      <div class="pp-search-inner">
+        <i class="fa-solid fa-magnifying-glass pp-search-icon"></i>
+        <input
+          type="text"
+          class="pp-search-input"
+          id="ppSearchInput"
+          placeholder="Cari bab, pasal, atau isi ayat..."
+          oninput="filterPeraturan(this.value)"
+        />
+        <button class="pp-search-clear" id="ppSearchClear" onclick="clearSearch()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </div>
+  
+    <!-- BODY -->
+    <div class="pp-body">
+  
+      <!-- HERO -->
+      <div class="pp-hero">
+        <div class="pp-hero-icon">
+          <i class="fa-solid fa-scale-balanced"></i>
+        </div>
+        <div class="pp-hero-text">
+          <div class="pp-hero-title">Peraturan Perusahaan</div>
+          <div class="pp-hero-sub">Pedoman kerja dan tata tertib perusahaan</div>
+        </div>
+        <div class="pp-hero-stats" id="ppHeroStats">
+          <div class="pp-hero-stat">
+            <div class="pp-hero-stat-num" id="statBab">—</div>
+            <div class="pp-hero-stat-label">Bab</div>
+          </div>
+          <div class="pp-hero-stat-divider"></div>
+          <div class="pp-hero-stat">
+            <div class="pp-hero-stat-num" id="statPasal">—</div>
+            <div class="pp-hero-stat-label">Pasal</div>
+          </div>
+          <div class="pp-hero-stat-divider"></div>
+          <div class="pp-hero-stat">
+            <div class="pp-hero-stat-num" id="statUpdate">—</div>
+            <div class="pp-hero-stat-label">Diperbarui</div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- LIST BAB -->
+      <div class="pp-section-label">Daftar Bab</div>
+      <div class="pp-list" id="ppList">
+        <div class="pp-loading">
+          <div class="pp-spinner"></div>
+          <div>Memuat peraturan...</div>
+        </div>
+      </div>
+  
+    </div>
+  
+    <!-- FLOATING BTN -->
+    <button class="pp-fab" onclick="openDaftarBab()" title="Daftar Bab">
+      <i class="fa-solid fa-list"></i>
+    </button>
+  
+    <!-- BOTTOM SHEET OVERLAY -->
+    <div class="pp-overlay" id="ppOverlay" onclick="closeDaftarBab()"></div>
+  
+    <!-- BOTTOM SHEET -->
+    <div class="pp-sheet" id="ppSheet">
+      <div class="pp-sheet-handle"></div>
+      <div class="pp-sheet-title">Daftar Bab</div>
+      <div class="pp-sheet-list" id="ppSheetList"></div>
+    </div>
+  
+  </div>
+  
+  <!--  KEAMANAN AKUN VIEW  -->
+  <div class="view" id="view-keamanan">
+    <div class="keamanan-page">
+  
+      <!-- HEADER -->
+      <div class="keamanan-header">
+        <button class="keamanan-back-btn" onclick="showView('profil')">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="keamanan-header-title">Keamanan Akun</div>
+        <div style="width:36px"></div>
+      </div>
+  
+      <!-- BODY -->
+      <div class="keamanan-body">
+  
+        <!-- STATUS KEAMANAN -->
+        <div class="keamanan-status-card">
+          <div class="keamanan-status-icon">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div class="keamanan-status-info">
+            <div class="keamanan-status-title">Akun Terlindungi</div>
+            <div class="keamanan-status-sub">Keamanan akun Anda dalam kondisi baik</div>
+          </div>
+          <div class="keamanan-status-badge">Aman</div>
+        </div>
+  
+        <!-- IDENTITAS AKUN -->
+        <div class="keamanan-section-label">Identitas Akun</div>
+        <div class="keamanan-card">
+  
+          <div class="keamanan-card-item">
+            <div class="keamanan-card-icon brown">
+              <i class="fa-solid fa-fingerprint"></i>
+            </div>
+            <div class="keamanan-card-info">
+              <div class="keamanan-card-label">User ID</div>
+              <div class="keamanan-card-value uid-text" id="keamananUID">-</div>
+            </div>
+            <button class="keamanan-copy-btn" id="btnCopyUID">
+              <i class="fa-regular fa-copy"></i>
+            </button>
+          </div>
+          <div class="keamanan-card-sep"></div>
+  
+          <div class="keamanan-card-item">
+            <div class="keamanan-card-icon blue">
+              <i class="fa-solid fa-envelope"></i>
+            </div>
+            <div class="keamanan-card-info">
+              <div class="keamanan-card-label">Email Akun</div>
+              <div class="keamanan-card-value" id="keamananEmail">-</div>
+            </div>
+          </div>
+          <div class="keamanan-card-sep"></div>
+  
+          <div class="keamanan-card-item">
+            <div class="keamanan-card-icon green">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div class="keamanan-card-info">
+              <div class="keamanan-card-label">Status Verifikasi</div>
+              <div class="keamanan-card-value" id="keamananVerifikasi">-</div>
+            </div>
+          </div>
+          <div class="keamanan-card-sep"></div>
+  
+          <div class="keamanan-card-item">
+            <div class="keamanan-card-icon orange">
+              <i class="fa-solid fa-clock"></i>
+            </div>
+            <div class="keamanan-card-info">
+              <div class="keamanan-card-label">Login Terakhir</div>
+              <div class="keamanan-card-value" id="keamananLastLogin">-</div>
+            </div>
+          </div>
+  
+        </div>
+  
+        <!-- SESI AKTIF -->
+        <div class="keamanan-section-label">Sesi Aktif</div>
+        <div class="keamanan-card">
+          <div class="keamanan-sesi-item">
+            <div class="keamanan-sesi-icon">
+              <i class="fa-solid fa-mobile-screen"></i>
+            </div>
+            <div class="keamanan-sesi-info">
+              <div class="keamanan-sesi-title">Perangkat Ini</div>
+              <div class="keamanan-sesi-sub" id="keamananDevice">-</div>
+            </div>
+            <div class="keamanan-sesi-badge">Aktif</div>
+          </div>
+        </div>
+  
+        <!-- PRIVASI DATA -->
+        <div class="keamanan-section-label">Privasi & Data</div>
+        <div class="keamanan-card">
+  
+          <div class="keamanan-menu-item">
+            <div class="keamanan-menu-left">
+              <div class="keamanan-card-icon purple">
+                <i class="fa-solid fa-database"></i>
+              </div>
+              <div>
+                <div class="keamanan-menu-title">Data Tersimpan Lokal</div>
+                <div class="keamanan-menu-sub">IndexedDB di perangkat ini</div>
+              </div>
+            </div>
+            <div class="keamanan-menu-badge" id="keamananDataLokal">-</div>
+          </div>
+          <div class="keamanan-card-sep"></div>
+  
+          <div class="keamanan-menu-item">
+            <div class="keamanan-menu-left">
+              <div class="keamanan-card-icon blue">
+                <i class="fa-solid fa-cloud"></i>
+              </div>
+              <div>
+                <div class="keamanan-menu-title">Sinkronisasi Cloud</div>
+                <div class="keamanan-menu-sub">Firebase Firestore</div>
+              </div>
+            </div>
+            <div class="keamanan-sesi-badge" id="keamananSyncStatus">-</div>
+          </div>
+          <div class="keamanan-card-sep"></div>
+  
+          <div class="keamanan-menu-item">
+            <div class="keamanan-menu-left">
+              <div class="keamanan-card-icon gray">
+                <i class="fa-solid fa-lock"></i>
+              </div>
+              <div>
+                <div class="keamanan-menu-title">Enkripsi Data</div>
+                <div class="keamanan-menu-sub">Firebase Auth + Firestore Rules</div>
+              </div>
+            </div>
+            <div class="keamanan-sesi-badge">Aktif</div>
+          </div>
+  
+        </div>
+  
+        <!-- TINDAKAN -->
+        <div class="keamanan-section-label">Tindakan Keamanan</div>
+        <div class="keamanan-card">
+  
+          <div class="keamanan-menu-item" id="btnKeamananRefreshToken">
+            <div class="keamanan-menu-left">
+              <div class="keamanan-card-icon green">
+                <i class="fa-solid fa-rotate"></i>
+              </div>
+              <div>
+                <div class="keamanan-menu-title">Perbarui Sesi</div>
+                <div class="keamanan-menu-sub">Refresh token autentikasi</div>
+              </div>
+            </div>
+            <i class="fa-solid fa-chevron-right tentang-arrow"></i>
+          </div>
+          <div class="keamanan-card-sep"></div>
+  
+          <div class="keamanan-menu-item" id="btnKeamananLogoutAll">
+            <div class="keamanan-menu-left">
+              <div class="keamanan-card-icon red">
+                <i class="fa-solid fa-right-from-bracket"></i>
+              </div>
+              <div>
+                <div class="keamanan-menu-title" id="logoutModalTitle">Logout Paksa</div>
+                <div class="keamanan-menu-sub" id="logoutModalDesc">Keluar dari semua sesi aktif</div>
+              </div>
+            </div>
+            <i class="fa-solid fa-chevron-right tentang-arrow"></i>
+          </div>
+  
+        </div>
+  
+        <!-- INFO -->
+        <div class="keamanan-info-box">
+          <i class="fa-solid fa-circle-info"></i>
+          <div>Data Anda dienkripsi dan dilindungi oleh Firebase Authentication. Kami tidak menyimpan password dalam bentuk apapun.</div>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
+  <!--  TENTANG APLIKASI VIEW  -->
+  <div class="view" id="view-tentang">
+    <div class="tentang-page">
+  
+      <!-- HEADER -->
+      <div class="tentang-header">
+        <button class="tentang-back-btn" onclick="showView('profil')">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="tentang-header-title">Tentang Aplikasi</div>
+        <div style="width:36px"></div>
+      </div>
+  
+      <!-- HERO -->
+      <div class="tentang-hero">
+        <div class="tentang-hero-bg"></div>
+        <div class="tentang-hero-pattern"></div>
+        <div class="tentang-logo-wrap">
+          <img src="logoTTN.png" class="tentang-logo" onerror="this.style.display='none'; document.getElementById('tentangLogoFallback').style.display='flex'">
+          <div class="tentang-logo-fallback" id="tentangLogoFallback">TTN</div>
+        </div>
+        <div class="tentang-app-name">Teh Tarik Nusantara</div>
+        <div class="tentang-app-sub">Marketing</div>
+        <div class="tentang-app-version">
+          <i class="fa-solid fa-tag"></i>
+          Versi 1.0.0
+        </div>
+      </div>
+  
+      <!-- BODY -->
+      <div class="tentang-body">
+  
+        <!-- DESKRIPSI -->
+        <div class="tentang-desc-card">
+          <div class="tentang-desc-text">
+            Aplikasi manajemen marketing berbasis mobile untuk monitoring, pendataan, laporan, dan analisis customer secara real-time dan efisien.
+          </div>
+        </div>
+  
+        <!-- INFO PERUSAHAAN -->
+        <div class="tentang-section-label">Informasi Perusahaan</div>
+        <div class="tentang-card">
+  
+          <div class="tentang-card-item">
+            <div class="tentang-card-icon brown">
+              <i class="fa-solid fa-building"></i>
+            </div>
+            <div class="tentang-card-info">
+              <div class="tentang-card-label">Perusahaan</div>
+              <div class="tentang-card-value">PT Rizquna Jaya Mandiri</div>
+            </div>
+          </div>
+          <div class="tentang-card-sep"></div>
+  
+          <div class="tentang-card-item">
+            <div class="tentang-card-icon brown">
+              <i class="fa-solid fa-mug-hot"></i>
+            </div>
+            <div class="tentang-card-info">
+              <div class="tentang-card-label">Produk</div>
+              <div class="tentang-card-value">Teh Tarik Nusantara & Es Kenyot</div>
+            </div>
+          </div>
+          <div class="tentang-card-sep"></div>
+  
+          <div class="tentang-card-item">
+            <div class="tentang-card-icon brown">
+              <i class="fa-solid fa-calendar"></i>
+            </div>
+            <div class="tentang-card-info">
+              <div class="tentang-card-label">Berdiri</div>
+              <div class="tentang-card-value">29 Februari 2022</div>
+            </div>
+          </div>
+          <div class="tentang-card-sep"></div>
+  
+          <div class="tentang-card-item">
+            <div class="tentang-card-icon brown">
+              <i class="fa-solid fa-globe"></i>
+            </div>
+            <div class="tentang-card-info">
+              <div class="tentang-card-label">Website</div>
+              <div class="tentang-card-value tentang-link" onclick="window.open('https://www.tehtariknusantara.com','_blank')">
+                www.tehtariknusantara.com
+                <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:10px;margin-left:4px;"></i>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+  
+        <!-- KONTAK -->
+        <div class="tentang-section-label">Hubungi Kami</div>
+        <div class="tentang-card">
+  
+          <div class="tentang-card-item" onclick="window.open('tel:0895694273200')">
+            <div class="tentang-card-icon green">
+              <i class="fa-solid fa-phone"></i>
+            </div>
+            <div class="tentang-card-info">
+              <div class="tentang-card-label">Telepon</div>
+              <div class="tentang-card-value tentang-link">0895694273200</div>
+            </div>
+            <i class="fa-solid fa-chevron-right tentang-arrow"></i>
+          </div>
+          <div class="tentang-card-sep"></div>
+  
+          <div class="tentang-card-item" onclick="window.open('mailto:pt.rizqunajayamandiri@gmail.com')">
+            <div class="tentang-card-icon blue">
+              <i class="fa-solid fa-envelope"></i>
+            </div>
+            <div class="tentang-card-info">
+              <div class="tentang-card-label">Email Perusahaan</div>
+              <div class="tentang-card-value tentang-link">pt.rizqunajayamandiri@gmail.com</div>
+            </div>
+            <i class="fa-solid fa-chevron-right tentang-arrow"></i>
+          </div>
+          <div class="tentang-card-sep"></div>
+  
+          <div class="tentang-card-item" onclick="window.open('mailto:tehtariknusantara@gmail.com')">
+            <div class="tentang-card-icon blue">
+              <i class="fa-solid fa-envelope"></i>
+            </div>
+            <div class="tentang-card-info">
+              <div class="tentang-card-label">Email Produk</div>
+              <div class="tentang-card-value tentang-link">tehtariknusantara@gmail.com</div>
+            </div>
+            <i class="fa-solid fa-chevron-right tentang-arrow"></i>
+          </div>
+  
+        </div>
+  
+        <!-- SOSIAL MEDIA -->
+        <div class="tentang-section-label">Sosial Media</div>
+        <div class="tentang-sosmed-grid">
+  
+          <div class="tentang-sosmed-card" onclick="window.open('https://instagram.com/tehtarik_nusantara','_blank')">
+            <div class="tentang-sosmed-icon ig">
+              <i class="fa-brands fa-instagram"></i>
+            </div>
+            <div class="tentang-sosmed-name">Instagram</div>
+            <div class="tentang-sosmed-handle">Teh Terik Nusantara</div>
+          </div>
+  
+          <div class="tentang-sosmed-card" onclick="window.open('https://www.facebook.com/profile.php?id=61583550478024')">
+            <div class="tentang-sosmed-icon fb">
+              <i class="fa-brands fa-facebook"></i>
+            </div>
+            <div class="tentang-sosmed-name">Facebook</div>
+            <div class="tentang-sosmed-handle">Teh Tarik Nusantara</div>
+          </div>
+  
+          <div class="tentang-sosmed-card" onclick="window.open('https://www.tiktok.com/@teh_tariknusantara.pkl?_r=1&_t=ZS-96u4Wyr461C')">
+            <div class="tentang-sosmed-icon tt">
+              <i class="fa-brands fa-tiktok"></i>
+            </div>
+            <div class="tentang-sosmed-name">TikTok</div>
+            <div class="tentang-sosmed-handle">Teh Tarik Nusantara</div>
+          </div>
+  
+        </div>
+  
+        <!-- APP INFO -->
+        <div class="tentang-section-label">Informasi Aplikasi</div>
+        <div class="tentang-card">
+          <div class="tentang-card-item">
+            <div class="tentang-card-icon gray">
+              <i class="fa-solid fa-code-branch"></i>
+            </div>
+            <div class="tentang-card-info">
+              <div class="tentang-card-label">Versi Aplikasi</div>
+              <div class="tentang-card-value">1.0.0 (Build 1)</div>
+            </div>
+          </div>
+          <div class="tentang-card-sep"></div>
+          <div class="tentang-card-item">
+            <div class="tentang-card-icon gray">
+              <i class="fa-solid fa-shield"></i>
+            </div>
+            <div class="tentang-card-info">
+              <div class="tentang-card-label">Keamanan Data</div>
+              <div class="tentang-card-value">Firebase Firestore + IndexedDB</div>
+            </div>
+          </div>
+          <div class="tentang-card-sep"></div>
+          <div class="tentang-card-item">
+            <div class="tentang-card-icon gray">
+              <i class="fa-solid fa-wifi"></i>
+            </div>
+            <div class="tentang-card-info">
+              <div class="tentang-card-label">Mode Offline</div>
+              <div class="tentang-card-value">Didukung dengan sync otomatis</div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- FOOTER -->
+        <div class="tentang-footer">
+          <div class="tentang-footer-logo">TTN</div>
+          <div class="tentang-footer-text">© 2022 PT Rizquna Jaya Mandiri</div>
+          <div class="tentang-footer-sub">Teh Tarik Nusantara · All rights reserved</div>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
+  <!-- ===== CHAT AI VIEW ===== -->
+  <div class="view" id="view-chatAi">
+    <div class="chat-ai-page">
+  
+      <!-- HEADER -->
+      <div class="chat-ai-header">
+        <button class="chat-ai-back-btn" onclick="showView('home')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
+        <div class="chat-ai-header-info">
+          <div class="chat-ai-title">Asisten AI</div>
+          <div class="chat-ai-subtitle">Powered by TTN</div>
+        </div>
+        <div class="chat-ai-header-avatar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            <circle cx="12" cy="16" r="1"/>
+          </svg>
+        </div>
+      </div>
+  
+      <!-- CHAT MESSAGES -->
+      <div class="chat-ai-messages" id="chatAiMessages">
+  
+        <!-- EMPTY STATE -->
+        <div class="chat-ai-empty" id="chatAiEmpty">
+          <div class="chat-ai-empty-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/>
+              <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+              <line x1="9" y1="9" x2="9.01" y2="9"/>
+              <line x1="15" y1="9" x2="15.01" y2="9"/>
+            </svg>
+          </div>
+          <div class="chat-ai-empty-title">Halo, saya Asisten AI.</div>
+          <div class="chat-ai-empty-desc">
+            Saya dapat membantu menganalisis data operasional dan laporan.
+          </div>
+          <!-- Suggestion chips -->
+          <div class="chat-ai-suggestions">
+            <button class="chat-suggestion-chip" onclick="useSuggestion(this)">
+              Ringkasan penjualan hari ini
+            </button>
+            <button class="chat-suggestion-chip" onclick="useSuggestion(this)">
+              Closing tertinggi
+            </button>
+            <button class="chat-suggestion-chip" onclick="useSuggestion(this)">
+              Laporan omset minggu ini
+            </button>
+          </div>
+        </div>
+  
+      </div>
+  
+      <!-- INPUT AREA -->
+      <div class="chat-ai-input-wrap">
+        <div class="chat-ai-input-box">
+          <textarea
+            id="chatAiInput"
+            placeholder="Tanyakan sesuatu..."
+            rows="1"
+          ></textarea>
+          <button id="chatAiSendBtn" class="chat-send-btn" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+
+  <!-- ===== NAVBAR BOTTOM ===== -->
+  <div class="navbar-bottom" id="navbarBottom">
+    <svg class="nav-bg" viewBox="0 0 400 80" preserveAspectRatio="none">
+      <path id="navSvgPath" d=""></path>
+    </svg>
+    <div class="nav-fab" id="navFab">
+      <i class="fa-solid fa-house" id="navFabIcon"></i>
+    </div>
+    <div class="nav-items">
+      <button class="nav-item" data-view="laporan" data-icon="fa-solid fa-file-lines">
+        <i class="fa-solid fa-file-lines"></i>
+        <span>Laporan</span>
+      </button>
+      <button class="nav-item active" data-view="home" data-icon="fa-solid fa-house">
+        <span class="nav-placeholder"></span>
+        <span>Home</span>
+      </button>
+      <button class="nav-item" data-view="profil" data-icon="fa-solid fa-user">
+        <i class="fa-solid fa-user"></i>
+        <span>Profil</span>
+      </button>
+    </div>
+  </div>
+</div>
+<!-- LOGOUT MODAL -->
+<div class="logout-modal-overlay" id="logoutModal">
+  <div class="logout-modal">
+    <div class="logout-modal-icon">
+      <i class="fa-solid fa-right-from-bracket"></i>
+    </div>
+    <div class="logout-modal-title">
+      Logout Aplikasi?
+    </div>
+    <div class="logout-modal-text">
+      Anda akan keluar dari akun saat ini.
+    </div>
+    <div class="logout-modal-actions">
+      <button class="logout-btn-cancel" id="btnLogoutCancel">
+        Batal
+      </button>
+      <button class="logout-btn-confirm" id="btnLogoutConfirm">
+        Logout
+      </button>
+    </div>
+  </div>
+</div>
+<div id="devConsoleMount"></div>
+<script src="devconsole.js"></script>
+
+<script src="home.js"></script>
+<script src="input.js"></script>
+<script src="profil.js"></script>
+<script src="laporan.js"></script>
+<script src="peraturan.js"></script>
+<script src="keamanan.js"></script>
+<script type="module" src="index.js"></script>
+</body>
+</html>

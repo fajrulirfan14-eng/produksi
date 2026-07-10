@@ -1,0 +1,101 @@
+:root {
+  /* ============ Brand (sumber warna asli) ============ */
+  --brand-dark:     #3b1f08;
+  --brand-primary:  #8A6234;
+  --brand-mid:      #B08A5C;
+  --brand-light:    #D4B185;
+  --brand-pale:     #fdf0e0;
+
+  --bg-page:        #F8F4EF;
+  --bg-card:        #ffffff;
+  --bg-sidebar:     #8A6234;
+  --bg-sidebar-hover: rgba(255,255,255,0.12);
+  --bg-sidebar-active: rgba(255,255,255,0.22);
+  --bg-topbar:      #8A6234;
+  --bg-input:       #fafafa;
+  --bg-hover:       rgba(179,135,79,0.08);
+
+  --text-primary:   #3D2C1E;
+  --text-secondary: #8B7A69;
+  --text-muted:     #b0977a;
+  --text-white:     #ffffff;
+  --text-sidebar:   rgba(255,255,255,0.85);
+  --text-sidebar-active: #ffffff;
+
+  --border-main:    rgba(176,138,92,0.15);
+  --border-card:    rgba(138,98,52,0.15);
+
+  --shadow-sm:      rgba(61,44,30,0.06);
+  --shadow-md:      rgba(61,44,30,0.10);
+  --shadow-lg:      rgba(61,44,30,0.16);
+  --shadow-sidebar: rgba(0,0,0,0.4);
+
+  --success:        #16a34a;
+  --success-bg:     #f0fdf4;
+  --warning:        #ca8a04;
+  --warning-bg:     #fefce8;
+  --danger:         #dc2626;
+  --danger-bg:      #fff1f2;
+  --info:           #2563eb;
+  --info-bg:        #eff6ff;
+
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.25s ease;
+  --transition-slow: 0.35s cubic-bezier(.4,0,.2,1);
+
+  --sidebar-width:  260px;
+  --topbar-height:  64px;
+
+  /* ============ Alias — dipakai oleh index.css & navbar/home CSS bawaan ============ */
+  --bg-primary:     var(--bg-page);
+  --bg-secondary:   var(--brand-pale);
+  --text-heading:   var(--brand-dark);
+  --text-inverse:   var(--text-white);
+  --border-color:   var(--border-main);
+  --shadow-color:   var(--shadow-md);
+  --accent:         var(--brand-primary);
+  --accent-dark:    var(--brand-dark);
+  --accent-light:   var(--brand-light);
+  --accent-glow:    rgba(138,98,52,0.35);
+  --popup-content-bg: var(--bg-card);
+
+  /* Navbar FAB curve */
+  --nav-color:        var(--brand-primary);
+  --nav-color-shadow: rgba(59,31,8,0.35);
+  --nav-fab-border:   var(--bg-page);
+  --nav-curve-r:    52;
+  --nav-curve-dip:  32;
+  --nav-curve-cp:   0.55;
+
+  /* Home header */
+  --home-header-bg:   var(--brand-primary);
+  --home-header-text: var(--text-white);
+  --home-btn-bg:      rgba(255,255,255,0.16);
+  --home-btn-color:   var(--text-white);
+}
+
+/* ============ Dark mode (starting point — silakan tuning) ============ */
+body.dark-mode {
+  --bg-primary:     #241608;
+  --bg-secondary:   #2f1d0d;
+  --bg-card:        #2c1c0f;
+  --bg-input:       #34220f;
+  --bg-hover:       rgba(212,177,133,0.08);
+
+  --text-primary:   #f1e4d3;
+  --text-heading:   #f7ecdd;
+  --text-secondary: #c9b299;
+  --text-muted:     #9c8871;
+  --text-inverse:   #241608;
+
+  --border-color:   rgba(212,177,133,0.18);
+  --border-card:    rgba(212,177,133,0.18);
+  --shadow-color:   rgba(0,0,0,0.4);
+
+  --accent:         var(--brand-light);
+  --accent-dark:    var(--brand-mid);
+
+  --home-header-bg: #2c1c0f;
+  --nav-color:      #2c1c0f;
+  --nav-fab-border: #241608;
+}
