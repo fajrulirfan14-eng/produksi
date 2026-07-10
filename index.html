@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="aksesbilitas.css">
 <link rel="stylesheet" href="laporan.css">
 <link rel="stylesheet" href="peraturan.css">
+<link rel="stylesheet" href="slip.css">
 <link rel="stylesheet" href="keamanan.css">
 <link rel="stylesheet" href="tentang.css">
 
@@ -763,6 +764,52 @@
     </div>
   </div>
   
+  <!--  SLIP VIEW  -->
+  <div class="view" id="view-slip">
+    <div class="slip-page">
+      <!-- HEADER -->
+      <div class="slip-header">
+        <button class="slip-back-btn" onclick="showView('profil')">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="slip-header-title">
+          Slip Gaji
+        </div>
+        <div style="width:36px"></div>
+      </div>
+      <!-- HERO -->
+      <div class="slip-hero">
+        <div class="slip-hero-bg"></div>
+        <div class="slip-icon-wrap">
+          <i class="fa-solid fa-wallet"></i>
+        </div>
+        <div class="slip-title">Slip Gaji</div>
+        <div class="slip-subtitle">Riwayat gaji per bulan</div>
+      </div>
+      <!-- BODY -->
+      <div class="slip-body">
+        <!-- FILTER -->
+        <div class="slip-section-label">Filter</div>
+          <div class="slip-filter-card">
+            <select id="filterBulan" class="slip-select"></select>
+            <div class="slip-custom-select" id="filterBulanTrigger" style="display:none">
+              <span class="slip-custom-select-label placeholder">Pilih Bulan</span>
+              <i class="fa-solid fa-chevron-down slip-custom-select-arrow"></i>
+            </div>
+          
+            <select id="filterTahun" class="slip-select"></select>
+            <div class="slip-custom-select" id="filterTahunTrigger" style="display:none">
+              <span class="slip-custom-select-label placeholder">Pilih Tahun</span>
+              <i class="fa-solid fa-chevron-down slip-custom-select-arrow"></i>
+            </div>
+          </div>
+          <!-- LIST -->
+        <div class="slip-section-label">Daftar Slip</div>
+        <div class="slip-list" id="slipList"></div>
+      </div>
+    </div>
+  </div>
+  
   <!-- ===== CHAT AI VIEW ===== -->
   <div class="view" id="view-chatAi">
     <div class="chat-ai-page">
@@ -898,6 +945,7 @@
 <script src="profil.js"></script>
 <script src="laporan.js"></script>
 <script src="peraturan.js"></script>
+<script src="slip.js"></script>
 <script src="keamanan.js"></script>
 <script type="module" src="index.js"></script>
 </body>
