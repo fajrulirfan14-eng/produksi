@@ -289,6 +289,10 @@ window.fetchSlipGaji = async function (periodeKey) {
 
     const [tahun, bulan] = periodeKey.split("-").map(Number);
 
+    const slipArr = raw.slipGaji || [];
+    const findSection = (key) =>
+      slipArr.find(s => s && Object.prototype.hasOwnProperty.call(s, key))?.[key] || {};
+
     const item = {
       id                 : snap.id,
       periode            : periodeKey,
@@ -303,26 +307,16 @@ window.fetchSlipGaji = async function (periodeKey) {
       createdAt          : raw.createdAt || null,
 
       totalPenerimaan    : raw.totalPenerimaan || 0,
+      totalPendapatan    : raw.totalPendapatan || 0,
 
-      pendapatan         : raw.slipGaji?.[0]?.pendapatan || {},
-      bonus              : raw.slipGaji?.[1]?.bonus      || {},
-      potongan           : raw.slipGaji?.[2]?.potongan   || {},
-      informasiKehadiran : raw.informasiKehadiran        || []
+      pendapatan         : findSection("pendapatan"),
+      bonus              : findSection("bonus"),
+      potongan           : findSection("potongan"),
+      informasiKehadiran : raw.informasiKehadiran || []
     };
 
     // ── SIMPAN KE RAM ─────────────────────────────────
     _slipCache[periodeKey] = item;
-    console.log("Slip disimpan ke cache RAM:", periodeKey);
-
-    const idb = await window.openAppDB();
-
-    const tx = idb.transaction(
-      "slipGajiDB",
-      "readwrite"
-    );
-
-    tx.objectStore("slipGajiDB").put(item);
-
     if (nominalEl) {
       nominalEl.innerText = formatRupiah(item.totalPenerimaan);
     }
@@ -356,24 +350,10 @@ async function renderSlipDetail(d) {
   const container = document.getElementById("slipDetailContainer");
   if (!container) return;
 
-  const idb = await window.openAppDB();
-
-  // Baca kantorDB
-  const kantorData = await new Promise(resolve => {
-    try {
-      const tx  = idb.transaction("kantorDB", "readonly");
-      const req = tx.objectStore("kantorDB").getAll();
-      req.onsuccess = () => {
-        const raw = req.result?.[0] || {};
-        resolve(raw.data || raw);
-      };
-      req.onerror = () => resolve({});
-    } catch { resolve({}); }
-  });
-
+  const kantorData = await window.fetchCabangInfo?.(window.currentUser?.idCabang) || {};
   const userData = window.currentUser || {};
 
-  function renderSection(title, obj) {
+  function renderSection(title, obj, unitLabel = "Hari") {
 
     if (!obj || typeof obj !== "object" || Object.keys(obj).length === 0) {
       return "";
@@ -395,7 +375,7 @@ async function renderSlipDetail(d) {
       return `
         <div class="slip-section-row">
           <span class="slip-col-kiri">${label}</span>
-          <span class="slip-col-tengah">${hari} Hari</span>
+          <span class="slip-col-tengah">${hari} ${unitLabel}</span>
           <span class="slip-col-kanan">${formatRupiah(pembayaran)}</span>
         </div>
       `;
@@ -409,7 +389,7 @@ async function renderSlipDetail(d) {
 
         <div class="slip-section-header">
           <span class="slip-col-kiri">Keterangan</span>
-          <span class="slip-col-tengah">Hari</span>
+          <span class="slip-col-tengah">${unitLabel}</span>
           <span class="slip-col-kanan">Pembayaran</span>
         </div>
 
@@ -465,7 +445,7 @@ async function renderSlipDetail(d) {
         <!-- BODY -->
         <div class="slip-detail-body">
   
-          ${renderSection("Pendapatan", d.pendapatan)}
+          ${renderSection("Pendapatan", d.pendapatan, "Loyang")}
   
           ${renderSection("Bonus", d.bonus)}
   

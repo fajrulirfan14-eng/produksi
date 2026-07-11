@@ -25,6 +25,7 @@
 <link rel="stylesheet" href="index.css">
 <link rel="stylesheet" href="home.css">
 <link rel="stylesheet" href="input.css">
+<link rel="stylesheet" href="riwayat.css">
 <link rel="stylesheet" href="profil.css">
 <link rel="stylesheet" href="aksesbilitas.css">
 <link rel="stylesheet" href="laporan.css">
@@ -79,6 +80,11 @@
   <!-- ===== INPUT VIEW ===== -->
   <div class="view" id="view-input">
     <div id="input-root"></div>
+  </div>
+  
+  <!-- ===== RIWAYAT VIEW ===== -->
+  <div class="view" id="view-riwayat">
+    <div id="riwayat-root"><div class="spinner"></div></div>
   </div>
 
   <!-- ===== LAPORAN VIEW ===== -->
@@ -891,16 +897,16 @@
     </div>
   </div>
 </div>
-<div id="devConsoleMount"></div>
-<script src="devconsole.js"></script>
 
 <script src="home.js"></script>
 <script src="input.js"></script>
+<script src="riwayat.js"></script>
 <script src="profil.js"></script>
 <script src="laporan.js"></script>
 <script src="peraturan.js"></script>
 <script src="slip.js"></script>
 <script src="keamanan.js"></script>
 <script type="module" src="index.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 </html>

@@ -245,7 +245,7 @@
 .home-purchase-varian-item {
   text-align: center;
   background: var(--bg-hover);
-  border-radius: 8px;
+  border-radius: 20px;
   padding: 6px 4px;
 }
 .home-purchase-varian-kode {

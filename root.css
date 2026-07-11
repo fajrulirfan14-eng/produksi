@@ -76,26 +76,26 @@
 
 /* ============ Dark mode (starting point — silakan tuning) ============ */
 body.dark-mode {
-  --bg-primary:     #241608;
-  --bg-secondary:   #2f1d0d;
-  --bg-card:        #2c1c0f;
-  --bg-input:       #34220f;
-  --bg-hover:       rgba(212,177,133,0.08);
+  --bg-primary:     #1a1a24;
+  --bg-secondary:   #20202c;
+  --bg-card:        #24242f;
+  --bg-input:       #2a2a37;
+  --bg-hover:       rgba(255,255,255,0.06);
 
-  --text-primary:   #f1e4d3;
-  --text-heading:   #f7ecdd;
-  --text-secondary: #c9b299;
-  --text-muted:     #9c8871;
-  --text-inverse:   #241608;
+  --text-primary:   #e4e4ea;
+  --text-heading:   #ffffff;
+  --text-secondary: #a3a3b0;
+  --text-muted:     #77778a;
+  --text-inverse:   #1a1a24;
 
-  --border-color:   rgba(212,177,133,0.18);
-  --border-card:    rgba(212,177,133,0.18);
-  --shadow-color:   rgba(0,0,0,0.4);
+  --border-color:   rgba(255,255,255,0.09);
+  --border-card:    rgba(255,255,255,0.09);
+  --shadow-color:   rgba(0,0,0,0.45);
 
   --accent:         var(--brand-light);
   --accent-dark:    var(--brand-mid);
 
-  --home-header-bg: #2c1c0f;
-  --nav-color:      #2c1c0f;
-  --nav-fab-border: #241608;
+  --home-header-bg: #24242f;
+  --nav-color:      #24242f;
+  --nav-fab-border: #1a1a24;
 }

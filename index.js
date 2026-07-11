@@ -206,7 +206,7 @@ function showView(viewName, trigger = "direct") {
   }
 
   const navbar = document.getElementById("navbarBottom");
-  const hideNavbarViews = ["input", "peraturan", "tentang", "keamanan", "perjanjian", "slip"];
+  const hideNavbarViews = ["input", "peraturan", "tentang", "keamanan", "perjanjian", "slip", "riwayat"];
   if (navbar) {
     navbar.classList.toggle("hide", hideNavbarViews.includes(viewName));
   }
@@ -226,6 +226,8 @@ function lazyInitView(viewName, forceRefresh = false) {
     case "laporan":   window.initLaporanView?.();   break;
     case "peraturan": window.initPeraturanView?.(); break;
     case "keamanan":  window.initKeamananView?.();  break;
+    case "slip":      window.initSlipView?.();      break;
+    case "riwayat":   window.initRiwayatView?.();   break;
   }
 }
 window.showView = showView;

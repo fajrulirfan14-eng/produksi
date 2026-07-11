@@ -211,6 +211,9 @@ window.initHomeView = async function () {
         <button class="menu-btn" onclick="showView('input')">
           <i class="fa-solid fa-pen-to-square"></i>
         </button>
+        <button class="menu-btn" onclick="showView('riwayat')">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+        </button>
         <div class="home-purchase-filter">
           <button class="home-purchase-filter-btn" id="homePurchaseDateBtn">
             <i class="fa-solid fa-calendar-days"></i>

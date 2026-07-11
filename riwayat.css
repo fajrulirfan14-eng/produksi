@@ -1,0 +1,86 @@
+.riwayat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.riwayat-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+.riwayat-card-tanggal {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.riwayat-chevron {
+  font-size: 12px;
+  color: var(--text-muted);
+  transition: transform 0.2s ease;
+}
+.riwayat-card.open .riwayat-chevron {
+  transform: rotate(180deg);
+}
+
+.riwayat-varian-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  gap: 6px;
+}
+.riwayat-total-grid .riwayat-varian-item {
+  background: var(--accent);
+}
+.riwayat-total-grid .riwayat-varian-kode,
+.riwayat-total-grid .riwayat-varian-qty {
+  color: #fff;
+}
+
+.riwayat-varian-item {
+  text-align: center;
+  background: var(--bg-hover);
+  border-radius: 20px;
+  padding: 6px 4px;
+}
+.riwayat-varian-kode {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+.riwayat-varian-qty {
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.riwayat-staff-detail {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+.riwayat-card.open .riwayat-staff-detail {
+  max-height: 1000px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border-color);
+}
+
+.riwayat-staff-block {
+  margin-bottom: 12px;
+}
+.riwayat-staff-block:last-child { margin-bottom: 0; }
+.riwayat-staff-nama {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+.riwayat-empty-staff {
+  font-size: 12px;
+  color: var(--text-muted);
+}
