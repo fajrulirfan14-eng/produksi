@@ -200,10 +200,7 @@ window.initHomeView = async function () {
 
       <div class="home-laporan-card" id="homeLaporanCard">
         <div class="home-laporan-title" id="homeLaporanTitle"><i class="fa-solid fa-receipt"></i> Laporan Terakhir</div>
-        <div class="home-laporan-list" id="homeLaporanList">
-          <div class="sk-row sk-light"></div>
-          <div class="sk-row sk-light"></div>
-        </div>
+        <div class="home-laporan-list" id="homeLaporanList"></div>
         <div class="home-laporan-total" id="homeLaporanTotal" style="visibility:hidden">Rp 0</div>
       </div>
     </div>
@@ -223,14 +220,7 @@ window.initHomeView = async function () {
         </div>
       </div>
       <div class="home-purchase-subtitle" id="homePurchaseSubtitle"></div>
-      <div class="home-purchase-list" id="homePurchaseList">
-        <div class="home-purchase-staff-block">
-          <div class="sk-row" style="width:40%"></div>
-          <div class="home-purchase-varian-grid">
-            <div class="sk-box"></div><div class="sk-box"></div><div class="sk-box"></div><div class="sk-box"></div>
-          </div>
-        </div>
-      </div>
+      <div class="home-purchase-list" id="homePurchaseList"></div>
       <div class="home-purchase-total-block" id="homePurchaseTotalBlock" style="display:none">
         <div class="home-purchase-total-title">Total</div>
         <div class="home-purchase-varian-grid" id="homePurchaseTotalGrid"></div>
@@ -314,18 +304,6 @@ window.initHomeView = async function () {
     }
     const subtitleEl = document.getElementById("homePurchaseSubtitle");
     if (subtitleEl) subtitleEl.textContent = `Stock untuk hari: ${formatTanggalLaporanHome(tglStr)}`;
-
-    const listEl = document.getElementById("homePurchaseList");
-    if (listEl) {
-      listEl.innerHTML = `
-        <div class="home-purchase-staff-block">
-          <div class="sk-row" style="width:40%"></div>
-          <div class="home-purchase-varian-grid">
-            <div class="sk-box"></div><div class="sk-box"></div><div class="sk-box"></div><div class="sk-box"></div>
-          </div>
-        </div>`;
-    }
-
     if (!adminUid) {
       renderPurchaseCard(null, varianKodeList);
       return;
