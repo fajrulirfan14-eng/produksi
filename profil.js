@@ -69,6 +69,7 @@ window.initProfilView = async function() {
         headerHome.style.backgroundSize = "";
         headerHome.style.backgroundPosition = "";
         headerHome.style.backgroundRepeat = "";
+        headerHome.classList.remove("has-cover");
       }
     });
   }
@@ -416,18 +417,6 @@ window.openAksesibilitas = function() {
             ? "Klik untuk beralih ke mode gelap"
             : "Tampilan lebih nyaman di malam hari";
         }
-      }
-    },
-    {
-      id:      "aiToggle",
-      icon:    "fa-solid fa-robot",
-      label:   "Aktifkan AI Chat",
-      desc:    "Tampilkan menu Chat AI di navigasi",
-      type:    "toggle",
-      value:   () => localStorage.getItem("pref_ai") !== "0",
-      onChange: (val) => {
-        localStorage.setItem("pref_ai", val ? "1" : "0");
-        val ? showAiButton() : hideAiButton();
       }
     },
     {

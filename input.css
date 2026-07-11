@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 60px 16px 14px;
+  padding: 20px 16px 14px;
   background: var(--home-header-bg);
   color: var(--home-header-text);
   border-radius: 0 0 24px 24px;

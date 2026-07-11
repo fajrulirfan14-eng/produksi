@@ -261,10 +261,15 @@ window.initHomeView = async function () {
   // Foto sampul (kalau ada, disimpan di profil nanti)
   const savedCover = localStorage.getItem("ttn_cover_photo");
   const headerEl = document.getElementById("headerHome");
-  if (headerEl && savedCover) {
-    headerEl.style.backgroundImage = `url(${savedCover})`;
+  if (headerEl) {
+    if (savedCover) {
+      headerEl.style.backgroundImage = `url(${savedCover})`;
+      headerEl.classList.add("has-cover");
+    } else {
+      headerEl.style.backgroundImage = "";
+      headerEl.classList.remove("has-cover");
+    }
   }
-
   // Info kantor cabang — fresh-first Firestore, fallback RAM cache
   const cabangData = await fetchCabangInfo(user?.idCabang);
   const kantorEl = document.getElementById("homeKantor");

@@ -4,10 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
-<meta name="theme-color" content="#8A6234">
+<!-- PWA Meta -->
+<meta name="theme-color" content="#b3874f">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="TTN App">
+<meta name="apple-mobile-web-app-title" content="TTN Marketing">
+
+<!-- Icons -->
+<link rel="icon" type="image/png" sizes="32x32" href="icon_32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="icon_48.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon_512.png">
+<link rel="apple-touch-icon" sizes="192x192" href="icon_192.png">
+
+<!-- Manifest -->
+<link rel="manifest" href="manifest.json">
 
 <title>TTN App</title>
 
@@ -810,87 +820,6 @@
     </div>
   </div>
   
-  <!-- ===== CHAT AI VIEW ===== -->
-  <div class="view" id="view-chatAi">
-    <div class="chat-ai-page">
-  
-      <!-- HEADER -->
-      <div class="chat-ai-header">
-        <button class="chat-ai-back-btn" onclick="showView('home')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="M15 18l-6-6 6-6"/>
-          </svg>
-        </button>
-        <div class="chat-ai-header-info">
-          <div class="chat-ai-title">Asisten AI</div>
-          <div class="chat-ai-subtitle">Powered by TTN</div>
-        </div>
-        <div class="chat-ai-header-avatar">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-            stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2"/>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-            <circle cx="12" cy="16" r="1"/>
-          </svg>
-        </div>
-      </div>
-  
-      <!-- CHAT MESSAGES -->
-      <div class="chat-ai-messages" id="chatAiMessages">
-  
-        <!-- EMPTY STATE -->
-        <div class="chat-ai-empty" id="chatAiEmpty">
-          <div class="chat-ai-empty-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/>
-              <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
-              <line x1="9" y1="9" x2="9.01" y2="9"/>
-              <line x1="15" y1="9" x2="15.01" y2="9"/>
-            </svg>
-          </div>
-          <div class="chat-ai-empty-title">Halo, saya Asisten AI.</div>
-          <div class="chat-ai-empty-desc">
-            Saya dapat membantu menganalisis data operasional dan laporan.
-          </div>
-          <!-- Suggestion chips -->
-          <div class="chat-ai-suggestions">
-            <button class="chat-suggestion-chip" onclick="useSuggestion(this)">
-              Ringkasan penjualan hari ini
-            </button>
-            <button class="chat-suggestion-chip" onclick="useSuggestion(this)">
-              Closing tertinggi
-            </button>
-            <button class="chat-suggestion-chip" onclick="useSuggestion(this)">
-              Laporan omset minggu ini
-            </button>
-          </div>
-        </div>
-  
-      </div>
-  
-      <!-- INPUT AREA -->
-      <div class="chat-ai-input-wrap">
-        <div class="chat-ai-input-box">
-          <textarea
-            id="chatAiInput"
-            placeholder="Tanyakan sesuatu..."
-            rows="1"
-          ></textarea>
-          <button id="chatAiSendBtn" class="chat-send-btn" disabled>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-              stroke-linecap="round" stroke-linejoin="round">
-              <line x1="22" y1="2" x2="11" y2="13"/>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-  
-    </div>
-  </div>
-
   <!-- ===== NAVBAR BOTTOM ===== -->
   <div class="navbar-bottom" id="navbarBottom">
     <svg class="nav-bg" viewBox="0 0 400 80" preserveAspectRatio="none">

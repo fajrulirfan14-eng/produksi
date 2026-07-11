@@ -1,7 +1,7 @@
 .headerHome {
   width: 100%;
   background: var(--home-header-bg);
-  padding: 60px 20px 32px;
+  padding: 20px 20px 32px;
   border-radius: 0 0 28px 28px;
   box-shadow: 0 2px 10px var(--shadow-color);
   position: relative;
@@ -11,7 +11,7 @@
   background-position: center;
   background-repeat: no-repeat;
 }
-.headerHome::before {
+.headerHome.has-cover::before {
   content: "";
   position: absolute;
   inset: 0;

@@ -625,6 +625,7 @@ document.addEventListener("gesturestart", (e) => e.preventDefault());
         headerHome.style.backgroundSize = "cover";
         headerHome.style.backgroundPosition = "center";
         headerHome.style.backgroundRepeat = "no-repeat";
+        headerHome.classList.add("has-cover");
       }
     } catch (err) {
       alert('Gambar terlalu besar. Coba area crop lebih kecil.');
