@@ -16,6 +16,39 @@ function getLaporanFieldKey(jenis) {
   return jenis === "Original" ? "jumlahLoyang" : `jumlahLoyang${jenis}`;
 }
 
+function hitungTotalProduksiVarian(entries) {
+  const total = {};
+  (entries || []).forEach((e) => {
+    const produksi = e.produksi || {};
+    Object.keys(produksi).forEach((kode) => {
+      total[kode] = (total[kode] || 0) + (Number(produksi[kode]) || 0);
+    });
+  });
+  return total;
+}
+
+function renderLaporanVarianChips(totalProduksi) {
+  const grid = document.getElementById("laporan-varian-chip-grid");
+  if (!grid) return;
+
+  const varianList = (window.currentUser?.varian || []).filter((v) => {
+    const k = Object.keys(v)[0];
+    return k && v[k]?.isAktif;
+  });
+
+  if (!varianList.length) { grid.innerHTML = ""; return; }
+
+  grid.innerHTML = varianList.map((v) => {
+    const kode = Object.keys(v)[0];
+    const qty = (totalProduksi && totalProduksi[kode]) || 0;
+    return `
+      <div class="laporan-varian-chip">
+        <span class="laporan-varian-chip-kode">${kode}</span>
+        <span class="laporan-varian-chip-harga">${qty}</span>
+      </div>`;
+  }).join("");
+}
+
 async function fetchLaporanBulan(adminUid, uidKoki, start, end) {
   try {
     const q = window.query(
@@ -297,6 +330,7 @@ window.initLaporanView = async function () {
           <span>Total Kasbon</span>
           <span id="laporan-total-kasbon-value">Rp 0</span>
         </div>
+        <div class="laporan-varian-chip-grid" id="laporan-varian-chip-grid"></div>
       </div>
 
       <div id="laporan-list" class="laporan-list">
@@ -423,6 +457,8 @@ window.initLaporanView = async function () {
     await loadAndRender();
   });
 
+  renderLaporanVarianChips();
+
   const idCabang = window.currentUser?.idCabang;
   const uidKoki = window.currentUser?.uid;
   const cabangData = await window.fetchCabangInfo?.(idCabang);
@@ -480,6 +516,7 @@ window.initLaporanView = async function () {
       fetchVarianBulan(adminUid, uidKoki, start, end),
     ]);
     entries.sort((a, b) => b.tanggal.localeCompare(a.tanggal));
+    renderLaporanVarianChips(hitungTotalProduksiVarian(entries));
     renderLaporanList(
       listEl, entries, hargaMap, loyangList.length ? loyangList : ["Original"],
       kasbonData.kasbonPerTanggal, kasbonData.totalKasbonBulan,

@@ -251,3 +251,28 @@
   background: var(--accent);
   color: #fff;
 }
+.laporan-varian-chip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+.laporan-varian-chip {
+  background: var(--brand-pale);
+  border: 1px solid var(--border-card);
+  border-radius: 10px;
+  padding: 8px 6px;
+  text-align: center;
+}
+.laporan-varian-chip-kode {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--brand-dark);
+}
+.laporan-varian-chip-harga {
+  display: block;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
