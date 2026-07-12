@@ -29,6 +29,10 @@
   position: relative;
 }
 .laporan-filter-btn {
+  flex: 1;
+  justify-content: center;
+}
+.laporan-filter-btn {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -144,3 +148,106 @@
   font-weight: 600;
 }
 .laporan-kasbon-nominal { font-weight: 700; }
+
+.laporan-total-breakdown {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.25);
+}
+.laporan-total-breakdown:empty { display: none; }
+.laporan-total-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  opacity: 0.75;
+  margin-bottom: 6px;
+}
+.laporan-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  padding: 3px 0;
+}
+.laporan-total-row-label { opacity: 0.95; }
+.laporan-total-row-value { font-weight: 700; }
+.laporan-total-kasbon-row {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(255,255,255,0.35);
+  font-size: 13px;
+  font-weight: 700;
+}
+.laporan-filter-btn--range.active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.laporan-rentang-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 50;
+  align-items: center;
+  justify-content: center;
+}
+.laporan-rentang-overlay.show { display: flex; }
+.laporan-rentang-popup {
+  background: var(--bg-card);
+  border-radius: 16px;
+  padding: 20px;
+  width: 85%;
+  max-width: 320px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.laporan-rentang-popup__title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 14px;
+}
+.laporan-rentang-popup__field { margin-bottom: 12px; }
+.laporan-rentang-popup__field label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+.laporan-rentang-popup__field input[type="date"] {
+  width: 100%;
+  height: 38px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0 10px;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 13px;
+}
+.laporan-rentang-popup__actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+.laporan-rentang-btn-reset,
+.laporan-rentang-btn-terapkan {
+  flex: 1;
+  height: 38px;
+  border-radius: 8px;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.laporan-rentang-btn-reset {
+  background: var(--bg-input);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+.laporan-rentang-btn-terapkan {
+  background: var(--accent);
+  color: #fff;
+}

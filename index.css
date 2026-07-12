@@ -59,6 +59,17 @@ html, body {
   transform: translateY(-60px);
   transition: none;
 }
+#ptrCard { position: relative; }
+#ptrIcon {
+  position: absolute;
+  top: 49%;
+  left: 50%;
+  width: 30px;
+  height: 30px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+}
 #ptrCard {
   margin-top: 12px;
   width: 39px;

@@ -356,9 +356,7 @@ function initNavbar() {
   }
 }
 
-/* =========================================================
-   PULL TO REFRESH
-   ========================================================= */
+//  PULL TO REFRESH
 (function () {
   const indicator = document.getElementById("pullRefreshIndicator");
   const circle    = document.getElementById("ptrCircle");
