@@ -174,6 +174,149 @@ function renderLaporanHomeCard(rows, total, tanggal) {
   totalEl.textContent = formatRupiah(total);
 }
 
+/* ── ESTIMASI LOYANG (read only, di card Purchase Order) ── */
+async function hitungSaldoUntukTanggalProduksi(adminUid, tanggalTarget, varianKodeList) {
+  try {
+    if (!adminUid || !tanggalTarget) return {};
+    const [tahunT, bulanT, hariT] = tanggalTarget.split("-").map(Number);
+
+    let saldoAwalMap = {};
+    try {
+      const prevBulanDate = new Date(tahunT, bulanT - 2, 1);
+      const prevBulanKey  = `${prevBulanDate.getFullYear()}-${String(prevBulanDate.getMonth()+1).padStart(2,"0")}`;
+      const saldoSnap = await window.getDoc(
+        window.doc(window.db, "users", adminUid, "saldoBulanKemarin", prevBulanKey)
+      );
+      saldoAwalMap = saldoSnap.exists() ? (saldoSnap.data()?.saldo || {}) : {};
+    } catch (err) {
+      console.error("❌ hitungSaldoUntukTanggalProduksi (saldoBulanKemarin):", err);
+    }
+
+    const promises = [];
+    const laporanPromises = [];
+    for (let d = 1; d <= hariT; d++) {
+      const tglStr = `${tahunT}-${String(bulanT).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+      promises.push(
+        window.getDoc(window.doc(window.db, "users", adminUid, "stockOpname", tglStr))
+          .then(snap => snap.exists() ? { id: tglStr, ...snap.data() } : null)
+      );
+      laporanPromises.push(
+        window.getDoc(window.doc(window.db, "users", adminUid, "laporanAdmin", tglStr))
+          .then(snap => snap.exists() ? { id: tglStr, ...snap.data() } : null)
+      );
+    }
+    const [results, laporanResults] = await Promise.all([Promise.all(promises), Promise.all(laporanPromises)]);
+    const dataByDate = {};
+    results.forEach(r => { if (r) dataByDate[r.id] = r; });
+    const laporanByDate = {};
+    laporanResults.forEach(r => { if (r) laporanByDate[r.id] = r; });
+
+    const LAPORAN_SKIP_KEYS = new Set(["tanggal", "createdBy"]);
+    function aggregateLaporanLokal(laporanDoc) {
+      const agg = { output: {}, fee: {}, offFlavor: {} };
+      if (!laporanDoc) return agg;
+      Object.keys(laporanDoc).forEach(key => {
+        if (LAPORAN_SKIP_KEYS.has(key)) return;
+        const entry = laporanDoc[key];
+        if (!entry || typeof entry !== "object") return;
+        const closing = entry.pembayaran?.closing || {};
+        Object.entries(closing).forEach(([varian, qty]) => {
+          agg.output[varian] = (agg.output[varian] || 0) + (Number(qty) || 0);
+        });
+        Object.entries(entry.fee || {}).forEach(([varian, qty]) => {
+          agg.fee[varian] = (agg.fee[varian] || 0) + (Number(qty) || 0);
+        });
+        Object.entries(entry.offFlavor || {}).forEach(([varian, qty]) => {
+          agg.offFlavor[varian] = (agg.offFlavor[varian] || 0) + (Number(qty) || 0);
+        });
+      });
+      return agg;
+    }
+
+    let prevSaldo = { ...saldoAwalMap };
+    for (let d = 1; d <= hariT; d++) {
+      const tglStr = `${tahunT}-${String(bulanT).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+      const existing   = dataByDate[tglStr] || {};
+      const laporanAgg = aggregateLaporanLokal(laporanByDate[tglStr]);
+
+      const rowSaldo = {};
+      varianKodeList.forEach(v => {
+        const prev  = Number(prevSaldo[v] || 0);
+        const masuk = Number(existing.produksi?.[v] || 0);
+        const keluar =
+          Number(laporanAgg.output[v]       || 0) +
+          Number(laporanAgg.fee[v]          || 0) +
+          Number(existing.reject?.[v]       || 0) +
+          Number(existing.rusakFreezer?.[v] || 0) +
+          Number(existing.basiFreezer?.[v]  || 0) +
+          Number(existing.promosi?.[v]      || 0) +
+          Number(laporanAgg.offFlavor[v]    || 0) +
+          Number(existing.barangHilang?.[v] || 0);
+        rowSaldo[v] = prev + masuk - keluar;
+      });
+      prevSaldo = rowSaldo;
+    }
+    return prevSaldo;
+  } catch (err) {
+    console.error("❌ hitungSaldoUntukTanggalProduksi:", err);
+    return {};
+  }
+}
+
+function hitungTotalVarianDariPurchase(data, varianKodeList) {
+  const total = {};
+  varianKodeList.forEach(k => { total[k] = 0; });
+  const staffMap = data?.staff || {};
+  Object.values(staffMap).forEach(info => {
+    varianKodeList.forEach(k => {
+      total[k] += Number(info.varian?.[k]) || 0;
+    });
+  });
+  return total;
+}
+
+function renderSaldoBarangCard(saldoMap, varianKodeList) {
+  const cardEl = document.getElementById("homeSaldoBarangCard");
+  if (!cardEl) return;
+  if (!varianKodeList.length) {
+    cardEl.innerHTML = '<div class="home-purchase-empty">Varian belum tersedia.</div>';
+    return;
+  }
+  cardEl.innerHTML = `
+    <div class="home-purchase-staff-block">
+      <div class="home-purchase-varian-grid">
+        ${varianKodeList.map(kode => `
+          <div class="home-purchase-varian-item">
+            <div class="home-purchase-varian-kode">${kode}</div>
+            <div class="home-purchase-varian-qty">${Number(saldoMap[kode] || 0)}</div>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function renderEstimasiLoyangCard(rows) {
+  const cardEl = document.getElementById("homeEstimasiLoyangCard");
+  if (!cardEl) return;
+  if (!rows.length) {
+    cardEl.innerHTML = '<div class="home-purchase-empty">Estimasi loyang belum diset di Kantor Cabang.</div>';
+    return;
+  }
+  cardEl.innerHTML = `
+    <div class="home-purchase-staff-block">
+      <div class="home-purchase-varian-grid">
+        ${rows.map(r => `
+          <div class="home-purchase-varian-item">
+            <div class="home-purchase-varian-kode">${r.label}</div>
+            <div class="home-purchase-varian-qty">${r.jumlahLoyang}</div>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+}
+
 window.initHomeView = async function () {
   const user = window.currentUser;
   const root = document.getElementById("home-root");
@@ -231,6 +374,22 @@ window.initHomeView = async function () {
       <div class="home-purchase-catatan-block" id="homePurchaseCatatanBlock" style="display:none">
         <div class="home-purchase-catatan-title">Catatan</div>
         <div class="home-purchase-catatan-text" id="homePurchaseCatatanText"></div>
+      </div>
+      <div class="home-purchase-total-block" id="homeSaldoBlock">
+        <div class="home-purchase-total-title">
+          Saldo Barang Hari Ini <span class="home-readonly-badge">Read Only</span>
+        </div>
+        <div id="homeSaldoBarangCard" class="home-purchase-list">
+          <div class="home-purchase-empty">Memuat...</div>
+        </div>
+      </div>
+      <div class="home-purchase-total-block" id="homeEstimasiBlock">
+        <div class="home-purchase-total-title">
+          Estimasi Loyang <span class="home-readonly-badge">Read Only</span>
+        </div>
+        <div id="homeEstimasiLoyangCard" class="home-purchase-list">
+          <div class="home-purchase-empty">Memuat...</div>
+        </div>
       </div>
     </div>
   `;
@@ -313,6 +472,33 @@ window.initHomeView = async function () {
     }
     const data = await fetchPurchaseByTanggal(adminUid, tglStr);
     renderPurchaseCard(data, varianKodeList);
+
+    // Estimasi Loyang (read only) — total input purchase dikurangi saldo di tanggal target
+    const estimasiConfig = cabangData?.estimasi || {};
+    if (!Object.keys(estimasiConfig).length) {
+      renderEstimasiLoyangCard([]);
+    } else {
+      const estimasiCardEl = document.getElementById("homeEstimasiLoyangCard");
+      if (estimasiCardEl) estimasiCardEl.innerHTML = '<div class="home-purchase-empty">Menghitung...</div>';
+      const totalVarian = hitungTotalVarianDariPurchase(data, varianKodeList);
+      const saldoMap = adminUid ? await hitungSaldoUntukTanggalProduksi(adminUid, todayStr, varianKodeList) : {};
+      renderSaldoBarangCard(saldoMap, varianKodeList);
+      const rows = Object.keys(estimasiConfig).map(groupKey => {
+        const capacityMap = estimasiConfig[groupKey] || {};
+        let fraksiTotal = 0;
+        Object.entries(capacityMap).forEach(([kode, kapasitas]) => {
+          const kap = Number(kapasitas) || 0;
+          if (kap <= 0) return;
+          const input     = Number(totalVarian[kode] || 0);
+          const saldo     = Number(saldoMap[kode]    || 0);
+          const kebutuhan = Math.max(0, input - saldo);
+          fraksiTotal += kebutuhan / kap;
+        });
+        const jumlahLoyang = fraksiTotal > 0 ? Math.ceil(fraksiTotal) : 0;
+        return { label: groupKey.replace(/^loyang/i, "") || groupKey, jumlahLoyang };
+      });
+      renderEstimasiLoyangCard(rows);
+    }
   }
   dateNativeEl?.addEventListener("change", () => {
     if (dateNativeEl.value) loadPurchaseForDate(dateNativeEl.value);
